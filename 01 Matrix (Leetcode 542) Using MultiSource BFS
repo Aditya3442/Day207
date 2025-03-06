@@ -1,0 +1,39 @@
+class Node {
+    int x;
+    int y;
+    Node(int x , int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+class Solution {
+    int directions[][] = {{0 , -1} , {-1 , 0} , {0 , 1} , {1 , 0}};
+    public int[][] updateMatrix(int[][] mat) {
+        int m = mat.length;
+        int n = mat[0].length;
+        int ans[][] = new int[m][n];
+        boolean visited[][] = new boolean[m][n];
+        Queue<Node> q = new LinkedList<>();
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j <n; j++) {
+                if(mat[i][j] == 0) {
+                    q.offer(new Node(i , j));
+                    visited[i][j] = true;
+                }
+            }
+        }
+        while(!q.isEmpty()) {
+            Node node = q.poll();
+            for(int dir[] : directions) {
+                int x = node.x + dir[0];
+                int y = node.y + dir[1];
+                if(x >= 0 && x < m && y >= 0 && y < n && !visited[x][y]) {
+                    ans[x][y] = ans[node.x][node.y] + 1;
+                    visited[x][y] = true;
+                    q.offer(new Node(x , y));
+                }
+            }
+        }
+        return ans;
+    }
+}
