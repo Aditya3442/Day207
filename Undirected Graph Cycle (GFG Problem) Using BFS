@@ -1,0 +1,44 @@
+class Node {
+    int val;
+    int parent;
+    Node(int val , int parent) {
+        this.val = val;
+        this.parent = parent;
+    }
+}
+class Solution {
+    // Function to detect cycle in an undirected graph.
+    public boolean isCycle(ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        
+        int n = adj.size();
+        boolean visited[] = new boolean[n];
+        
+        for (int i = 0; i < n; i++) {
+            if(!visited[i]) {
+                 Queue<Node> q = new LinkedList<>();
+                 q.offer(new Node(i , -1));
+                 visited[i] = true;
+        
+                 while(!q.isEmpty()) {
+                    Node node = q.poll();
+                    int parent = node.parent;
+                    for(int x : adj.get(node.val)) {
+                      if(x == parent)
+                         continue;
+                      else {
+                       if(visited[x])
+                          return true;
+                       else {
+                          visited[x] = true;
+                          q.offer(new Node(x , node.val));
+                       }
+                      }
+                    }
+                }
+            }
+        }
+        return false;
+        
+    }
+}
